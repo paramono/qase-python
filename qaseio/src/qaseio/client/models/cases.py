@@ -1,5 +1,5 @@
 from enum import Enum, unique
-from typing import List
+from typing import Dict, List
 
 import attr
 
@@ -19,6 +19,40 @@ class TestCaseStatus(Enum):
     ACTUAL = "actual"
     DRAFT = "draft"
     DEPRECATED = "deprecated"
+
+
+@attr.s
+class TestCaseCreate:
+    title: str = attr.ib()
+
+    automation: int = attr.ib(default=None)
+    behavior: int = attr.ib(default=None)
+    description: str = attr.ib(default=None)
+
+    is_flaky: int = attr.ib(default=None)
+    layer: int = attr.ib(default=None)
+    milestone_id: int = attr.ib(default=None)
+
+    postconditions: str = attr.ib(default=None)
+    preconditions: str = attr.ib(default=None)
+
+    priority: int = attr.ib(default=None)
+    severity: int = attr.ib(default=None)
+    status: int = attr.ib(default=None)
+
+    suite_id: int = attr.ib(default=None)
+    type: int = attr.ib(default=None)
+    custom_field: Dict[str, str] = attr.ib(default=None)
+
+
+@attr.s
+class TestCaseUpdate(TestCaseCreate):
+    title: str = attr.ib(default=None)
+
+
+@attr.s
+class TestCaseCreated:
+    id = attr.ib(default=None)
 
 
 @attr.s
