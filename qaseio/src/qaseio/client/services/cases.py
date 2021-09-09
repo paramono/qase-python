@@ -35,8 +35,16 @@ class Cases(BaseService):
         )
 
     def create(self, code: str, data: TestCaseCreate):
+        # create endpoint started returning errors for some fields if they
+        # are set to None (i.e. it suddenly broke on 2021-09-07 with a default
+        # value of type=None), therefore we have to omit those values if we want
+        # to make it work
+        data_dict = {k: v for k, v in attr.asdict(data).items() if v or v == 0}
         return self.vr(
-            self.s.post(self.path("case/{}".format(code)), data=data),
+            self.s.post(
+                self.path("case/{}".format(code)),
+                json=data_dict,
+            ),
             to_type=TestCaseCreated,
         )
 
